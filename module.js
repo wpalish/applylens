@@ -48,8 +48,13 @@ const definition = {
   validate(state, before, command, actor) {
     unique(live(state, "vacancies"), "url", "Ссылка вакансии");
     for (const c of live(state, "comparisons")) {
-      byId(state, "profiles", c.profile);
-      byId(state, "vacancies", c.vacancy);
+      const profile = byId(state, "profiles", c.profile),
+        vacancy = byId(state, "vacancies", c.vacancy),
+        old = changed(before, "comparisons", c.id);
+      if (!old || old.profile !== c.profile)
+        required(!profile.archived, "Для нового разбора выберите неархивное резюме.");
+      if (!old || old.vacancy !== c.vacancy)
+        required(!vacancy.archived, "Для нового разбора выберите неархивную вакансию.");
     }
     for (const v of live(state, "vacancies"))
       required(

@@ -4,7 +4,7 @@
   "runtime": "Node 24.19.0",
   "tests": {
     "slug": "applylens",
-    "tests": 4,
+    "tests": 6,
     "pass": true,
     "runtime": "v24.19.0"
   },
@@ -36,5 +36,10 @@
     "slug": "applylens",
     "query": "Вымышленное резюме",
     "result": "visible_label_and_no_results_recovery_passed"
+  },
+  "followup": {
+    "date": "2026-10-25",
+    "change": "Reject new archived source links; retain selected historical references in edit form and preserve computation after archive",
+    "evidence": "docs/archive-verification.json"
   }
 }

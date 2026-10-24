@@ -1,34 +1,46 @@
 TAP version 13
-# Subtest: ApplyLens: complete original workflow, calculation and rejected invalid transition
-ok 1 - ApplyLens: complete original workflow, calculation and rejected invalid transition
+# Subtest: new comparisons and changed links reject archived sources, while existing links and active retargets remain available
+ok 1 - new comparisons and changed links reject archived sources, while existing links and active retargets remain available
   ---
-  duration_ms: 2.367792
+  duration_ms: 4.466667
+  type: 'test'
+  ...
+# Subtest: file restart and empty restore preserve later-archived and legacy comparisons without silently changing text analyses
+ok 2 - file restart and empty restore preserve later-archived and legacy comparisons without silently changing text analyses
+  ---
+  duration_ms: 4.96
+  type: 'test'
+  ...
+# Subtest: ApplyLens: complete original workflow, calculation and rejected invalid transition
+ok 3 - ApplyLens: complete original workflow, calculation and rejected invalid transition
+  ---
+  duration_ms: 2.445583
   type: 'test'
   ...
 # Subtest: real file restart, optimistic conflict and validated restore into an empty database
-ok 2 - real file restart, optimistic conflict and validated restore into an empty database
+ok 4 - real file restart, optimistic conflict and validated restore into an empty database
   ---
-  duration_ms: 3.26075
+  duration_ms: 3.66375
   type: 'test'
   ...
 # Subtest: HTTP prevents anonymous reads and cross-origin/CSRF writes while authenticated workflow saves
-ok 3 - HTTP prevents anonymous reads and cross-origin/CSRF writes while authenticated workflow saves
+ok 5 - HTTP prevents anonymous reads and cross-origin/CSRF writes while authenticated workflow saves
   ---
-  duration_ms: 69.86675
+  duration_ms: 71.606458
   type: 'test'
   ...
 # Subtest: two products on one host use isolated session cookies and preserve both logins
-ok 4 - two products on one host use isolated session cookies and preserve both logins
+ok 6 - two products on one host use isolated session cookies and preserve both logins
   ---
-  duration_ms: 89.159375
+  duration_ms: 85.1725
   type: 'test'
   ...
-1..4
-# tests 4
+1..6
+# tests 6
 # suites 0
-# pass 4
+# pass 6
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 207.995166
+# duration_ms 208.914459

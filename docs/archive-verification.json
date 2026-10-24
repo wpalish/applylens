@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-25",
+  "product": "applylens",
+  "baseline_commit": "126204b",
+  "defects": [
+    "New comparison accepted archived profile/vacancy through API",
+    "Existing comparison edit form omitted selected archived references and left required selectors empty"
+  ],
+  "before_fix": {
+    "regressions_failed": 2,
+    "comparison_count_before": 1,
+    "comparison_count_after": 2,
+    "existing_computed_already_preserved": true,
+    "edit_selectors": [
+      {
+        "label": "Резюме",
+        "options": [
+          "Выберите значение",
+          "SYNTHETIC live resume"
+        ],
+        "value": ""
+      },
+      {
+        "label": "Вакансия",
+        "options": [
+          "Выберите значение",
+          "SYNTHETIC live vacancy"
+        ],
+        "value": ""
+      }
+    ]
+  },
+  "policy": "New comparisons and changed references require active source records. An existing unchanged reference may remain archived, allowing note edit/archive/restore. Edit selector retains only its already-selected archived record with Archive label; a new form excludes archived sources. Computation remains literal and uses current referenced text; no immutable source snapshots added.",
+  "tests": {
+    "passed": 6,
+    "failed": 0,
+    "runtime": "v24.19.0",
+    "log": "docs/test-output.txt",
+    "regression": "tests/archive.test.js",
+    "coverage": [
+      "new comparison and changed links to archived profile/vacancy/both rejected without state/revision/audit change",
+      "existing archived references permit note edits; explicit retarget to active source and valid new comparison allowed",
+      "source archival leaves prior computation intact; real file close/reopen and validated restore preserve data/computation",
+      "historical comparison can archive; unrelated work remains available",
+      "original HTTP auth/CSRF/cookie and conflict checks remain passing"
+    ]
+  },
+  "browser": {
+    "data": "synthetic only, localhost8831",
+    "baseline_edit_form": {
+      "observed_at": "2026-10-24T23:05:41.406Z",
+      "selectors": [
+        {
+          "label": "Резюме",
+          "options": [
+            "Выберите значение",
+            "SYNTHETIC live resume"
+          ],
+          "value": ""
+        },
+        {
+          "label": "Вакансия",
+          "options": [
+            "Выберите значение",
+            "SYNTHETIC live vacancy"
+          ],
+          "value": ""
+        }
+      ],
+      "defect": "Existing archived references missing from edit selectors; both values empty although comparison remains linked in saved data"
+    },
+    "restored_edit_and_new_form": {
+      "existing_edit_selectors": [
+        {
+          "label": "Резюме",
+          "options": [
+            "Выберите значение",
+            "SYNTHETIC live resume",
+            "SYNTHETIC archived resume · Архив"
+          ],
+          "selected": "SYNTHETIC archived resume · Архив",
+          "value": "a4327645-e753-4bb3-b5a5-963ff14fa250"
+        },
+        {
+          "label": "Вакансия",
+          "options": [
+            "Выберите значение",
+            "SYNTHETIC live vacancy",
+            "SYNTHETIC archived vacancy · Архив"
+          ],
+          "selected": "SYNTHETIC archived vacancy · Архив",
+          "value": "1acd4b55-ac13-47c4-9368-b21184185a6b"
+        }
+      ],
+      "new_comparison_selectors": [
+        {
+          "label": "Резюме",
+          "options": [
+            "Выберите значение",
+            "SYNTHETIC live resume"
+          ]
+        },
+        {
+          "label": "Вакансия",
+          "options": [
+            "Выберите значение",
+            "SYNTHETIC live vacancy"
+          ]
+        }
+      ],
+      "archived_entries_only_retained_for_existing_link": true
+    },
+    "api_rejections": {
+      "authenticated_http": true,
+      "all6_rejections_preserved_entire_state_and_audit": true,
+      "revision": 8,
+      "audit_events": 8,
+      "results": [
+        {
+          "operation": "create_new",
+          "profile_archived": true,
+          "vacancy_archived": false,
+          "status": 400,
+          "error": "Для нового разбора выберите неархивное резюме."
+        },
+        {
+          "operation": "create_new",
+          "profile_archived": false,
+          "vacancy_archived": true,
+          "status": 400,
+          "error": "Для нового разбора выберите неархивную вакансию."
+        },
+        {
+          "operation": "create_new",
+          "profile_archived": true,
+          "vacancy_archived": true,
+          "status": 400,
+          "error": "Для нового разбора выберите неархивное резюме."
+        },
+        {
+          "operation": "change_existing_links",
+          "profile_archived": true,
+          "vacancy_archived": false,
+          "status": 400,
+          "error": "Для нового разбора выберите неархивное резюме."
+        },
+        {
+          "operation": "change_existing_links",
+          "profile_archived": false,
+          "vacancy_archived": true,
+          "status": 400,
+          "error": "Для нового разбора выберите неархивную вакансию."
+        },
+        {
+          "operation": "change_existing_links",
+          "profile_archived": true,
+          "vacancy_archived": true,
+          "status": 400,
+          "error": "Для нового разбора выберите неархивное резюме."
+        }
+      ]
+    },
+    "positive_edits_and_readback": {
+      "existing_archived_links_and_original_texts_preserved": true,
+      "historical_note_edit_saved": true,
+      "new_active_comparison_saved": true,
+      "prior_computed_analyses_unchanged": true,
+      "comparison_count": 3,
+      "revision": 10,
+      "audit_events": 10
+    },
+    "readback": "Historical note saved with same archived sources and unchanged original source texts/computation. New comparison uses active sources; reload reads3 comparisons,revision10/audit10.",
+    "screens": [
+      "docs/before-archived-fields.jpg",
+      "docs/historical-note-saved.jpg",
+      "docs/new-active-options.jpg",
+      "docs/history-and-new-analysis.jpg"
+    ]
+  },
+  "limits": [
+    "Literal phrase matching only; not semantic or ATS ranking, hire decision or proof of skill",
+    "Editing active source text or explicitly changing links still recalculates its comparisons; immutable snapshots not added",
+    "No automatic repair or deletion of older comparisons with archived sources",
+    "UI changed only reference-option retention/Archive label; schema unchanged; no fresh whole-interface/security audit",
+    "Server checked locally; no public server hosting or client acceptance"
+  ]
+}
