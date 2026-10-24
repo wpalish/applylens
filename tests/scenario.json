@@ -1,0 +1,38 @@
+[
+  {
+    "collection": "profiles",
+    "as": "p",
+    "data": {
+      "name": "Вымышленное резюме",
+      "resume": "Учебный проект на JavaScript и SQLite."
+    }
+  },
+  {
+    "collection": "vacancies",
+    "as": "v",
+    "data": {
+      "title": "Учебная роль",
+      "company": "Пример",
+      "url": "https://example.org/job",
+      "requirements": "JavaScript\nPython"
+    }
+  },
+  {
+    "collection": "comparisons",
+    "data": {
+      "profile": "$p",
+      "vacancy": "$v",
+      "note": "Только тест."
+    },
+    "expect": "Нет буквальной формулировки: Python"
+  },
+  {
+    "collection": "comparisons",
+    "error": "Связанная",
+    "data": {
+      "profile": "00000000-0000-0000-0000-000000000000",
+      "vacancy": "$v",
+      "note": ""
+    }
+  }
+]
